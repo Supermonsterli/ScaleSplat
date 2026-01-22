@@ -1,4 +1,4 @@
-# ScaleSplat
+# ScaleSplat📏
 Scalable SfM-free 3D Gaussian Splatting via Memory-Representation Co-design. 
 
 🚧 Code is coming soon!
