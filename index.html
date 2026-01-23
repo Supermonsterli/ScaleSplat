@@ -53,7 +53,7 @@
             padding: 0 var(--spacing-sm);
         }
 
-        /* Hero Section - 增强层次感 */
+        /* Hero Section - 优化副标题和作者区域 */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -181,28 +181,23 @@
                 0 0 60px rgba(212, 175, 55, 0.1);
         }
 
+        /* 优化副标题样式 - 去掉背景框，使用优雅的文字样式 */
         .project-title {
             font-size: clamp(1.3rem, 3vw, 1.6rem);
-            font-weight: 300;
+            font-weight: 350;
             color: var(--text-primary);
             line-height: 1.5;
             max-width: 900px;
             margin: 0 auto var(--spacing-md);
             text-align: center;
-            letter-spacing: 0.01em;
+            letter-spacing: 0.02em;
             position: relative;
             z-index: 2;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            background: rgba(26, 26, 26, 0.7);
-            padding: 1.5rem;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 175, 55, 0.1);
-            box-shadow: 
-                var(--shadow-md),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+            padding: 0 1rem;
         }
 
+        /* 优化作者区域样式 - 去掉背景框，改为优雅的文字链 */
         .authors {
             font-size: 1.2rem;
             color: var(--text-secondary);
@@ -210,10 +205,40 @@
             font-weight: 300;
             letter-spacing: 0.02em;
             position: relative;
-            padding: 1rem 2rem;
-            background: rgba(26, 26, 26, 0.5);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        /* 作者名字样式 */
+        .author-name {
+            position: relative;
+            display: inline-block;
+            padding: 0 2px;
+            transition: all 0.3s ease;
+        }
+
+        .author-name::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--primary-gold);
+            transition: width 0.3s ease;
+        }
+
+        .author-name:hover {
+            color: var(--primary-gold);
+        }
+
+        .author-name:hover::after {
+            width: 100%;
+        }
+
+        .author-separator {
+            color: var(--text-tertiary);
+            margin: 0 0.3rem;
         }
 
         /* 添加分隔线增强层次 */
@@ -229,7 +254,7 @@
             opacity: 0.6;
         }
 
-        /* GitHub按钮样式 - 增强层次感 */
+        /* GitHub按钮样式 */
         .github-btn {
             display: inline-flex;
             align-items: center;
@@ -286,7 +311,7 @@
             height: 22px;
         }
 
-        /* Highlights Section - 增强层次感 */
+        /* Highlights Section */
         .highlights {
             padding: var(--spacing-xl) 0;
             position: relative;
@@ -375,7 +400,7 @@
             text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
         }
 
-        /* Video Demo Section - 增强层次感 */
+        /* Video Demo Section */
         .video-demo {
             padding: var(--spacing-xl) 0;
             position: relative;
@@ -502,12 +527,10 @@
             .project-title {
                 font-size: 1.2rem;
                 max-width: 90%;
-                padding: 1.2rem;
             }
 
             .authors {
                 font-size: 1rem;
-                padding: 0.8rem 1.5rem;
             }
 
             .section-title {
@@ -538,7 +561,10 @@
             .project-title {
                 font-size: 1rem;
                 max-width: 95%;
-                padding: 1rem;
+            }
+
+            .authors {
+                font-size: 0.9rem;
             }
 
             .github-btn {
@@ -552,20 +578,92 @@
             }
         }
 
-        /* 滚动动画 */
+        /* 滚动动画增强 */
         .fade-in {
             opacity: 0;
-            transform: translateY(40px);
+            transform: translateY(40px) scale(0.95);
             transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
         .fade-in.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
+        }
+
+        /* 添加平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 添加鼠标滚轮滚动指示器 */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .scroll-indicator.show {
+            opacity: 1;
+        }
+
+        .scroll-indicator:hover {
+            background: rgba(212, 175, 55, 0.2);
+            transform: scale(1.1);
+        }
+
+        .scroll-indicator svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--primary-gold);
+        }
+
+        /* 添加滚动进度条 */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--light-gold));
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
+
+        /* 添加视差滚动效果 */
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.03) 0%, transparent 20%);
+            background-attachment: fixed;
+            background-size: cover;
         }
     </style>
 </head>
 <body>
+    <!-- 滚动进度条 -->
+    <div class="scroll-progress"></div>
+
+    <!-- 视差背景 -->
+    <div class="parallax-bg"></div>
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-decoration">
@@ -583,7 +681,15 @@
             <div class="separator fade-in"></div>
             
             <div class="authors fade-in">
-                Jitong Li, JinXu He, Suling Xue, xxx xxx, and Lu Lou
+                <span class="author-name">Jitong Li</span>
+                <span class="author-separator">,</span>
+                <span class="author-name">JinXu He</span>
+                <span class="author-separator">,</span>
+                <span class="author-name">Suling Xue</span>
+                <span class="author-separator">,</span>
+                <span class="author-name">xxx xxx</span>
+                <span class="author-separator">,</span>
+                and <span class="author-name">Lu Lou</span>
             </div>
             
             <a href="https://github.com/Supermonsterli/ScaleSplat" class="github-btn fade-in">
@@ -633,6 +739,13 @@
         </div>
     </section>
 
+    <!-- 滚动指示器 -->
+    <div class="scroll-indicator" id="scrollTopBtn">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"/>
+        </svg>
+    </div>
+
     <script>
         // 滚动动画实现
         const fadeElements = document.querySelectorAll('.fade-in');
@@ -665,6 +778,9 @@
                     }, index * 200);
                 });
             }, 300);
+
+            // 初始化滚动指示器
+            initScrollEffects();
         });
 
         // 视频悬停效果增强
@@ -676,6 +792,106 @@
             
             videoContainer.addEventListener('mouseleave', function() {
                 this.style.transform = 'translateY(0)';
+            });
+        }
+
+        // 初始化滚动效果
+        function initScrollEffects() {
+            const scrollProgress = document.querySelector('.scroll-progress');
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            const parallaxBg = document.querySelector('.parallax-bg');
+            
+            // 滚动进度条
+            window.addEventListener('scroll', function() {
+                // 计算滚动进度
+                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (window.scrollY / windowHeight) * 100;
+                
+                // 更新进度条
+                if (scrollProgress) {
+                    scrollProgress.style.width = scrolled + '%';
+                }
+                
+                // 控制滚动到顶部按钮的显示
+                if (scrollTopBtn) {
+                    if (window.scrollY > 300) {
+                        scrollTopBtn.classList.add('show');
+                    } else {
+                        scrollTopBtn.classList.remove('show');
+                    }
+                }
+                
+                // 视差效果
+                if (parallaxBg) {
+                    const yPos = -(window.scrollY * 0.3);
+                    parallaxBg.style.transform = `translateY(${yPos}px)`;
+                }
+                
+                // 增强滚动动画 - 为元素添加额外的缩放效果
+                const scrolledElements = document.querySelectorAll('.fade-in');
+                scrolledElements.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
+                    
+                    if (isVisible) {
+                        const scrollPercent = 1 - (rect.top / window.innerHeight);
+                        const scale = 0.95 + (scrollPercent * 0.05);
+                        el.style.transform = `translateY(0) scale(${scale})`;
+                    }
+                });
+            });
+            
+            // 滚动到顶部功能
+            if (scrollTopBtn) {
+                scrollTopBtn.addEventListener('click', function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+            
+            // 鼠标滚轮滚动效果
+            let lastScrollTime = 0;
+            const scrollDelay = 100; // 毫秒
+            
+            window.addEventListener('wheel', function(e) {
+                const currentTime = Date.now();
+                
+                // 限制滚动频率
+                if (currentTime - lastScrollTime < scrollDelay) {
+                    return;
+                }
+                lastScrollTime = currentTime;
+                
+                // 检测滚动方向
+                const delta = e.deltaY;
+                
+                // 添加滚动指示
+                if (scrollTopBtn) {
+                    scrollTopBtn.style.transform = delta > 0 ? 'scale(1.2)' : 'scale(0.8)';
+                    setTimeout(() => {
+                        scrollTopBtn.style.transform = '';
+                    }, 300);
+                }
+                
+                // 为页面添加微妙的缩放效果
+                if (Math.abs(delta) > 50) {
+                    document.body.style.transform = 'scale(0.995)';
+                    setTimeout(() => {
+                        document.body.style.transform = '';
+                    }, 300);
+                }
+            }, { passive: true });
+            
+            // 添加键盘滚动支持
+            window.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                    document.body.classList.add('scrolling');
+                    setTimeout(() => {
+                        document.body.classList.remove('scrolling');
+                    }, 300);
+                }
             });
         }
     </script>
