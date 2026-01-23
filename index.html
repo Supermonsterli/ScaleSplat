@@ -3,179 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScaleSplat | Scalable SfM-free 3DGS</title>
-    <!-- 引入更现代的 Inter 字体 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>ScaleSplat: Scalable SfM-free 3D Gaussian Splatting</title>
     <style>
-        /* ===== CSS 重置与基础变量 (配色方案) ===== */
         :root {
-            --color-deep-amber: #8B7500;   /* 主色：深琥珀，用于重要标题和边框 */
-            --color-warm-gold: #D4AF37;    /* 强调色：暖金，用于高亮和图标 */
-            --color-light-gold: #FFECB3;   /* 背景色：浅金，用于高亮背景 */
-            --color-dark-gray: #2C3E50;    /* 文字主色：深灰 */
-            --color-medium-gray: #7F8C8D;  /* 文字次色：中灰 */
-            --color-light-gray: #ECF0F1;   /* 背景色：浅灰 */
-            --color-white: #FFFFFF;
-            --shadow-subtle: 0 4px 12px rgba(139, 117, 0, 0.08);
-            --shadow-medium: 0 8px 30px rgba(139, 117, 0, 0.12);
-            --border-radius: 12px;
+            --primary-gold: #D4AF37;
+            --light-gold: #F0E6D2;
+            --dark-gold: #B8860B;
+            --dark-bg: #1a1a1a;
+            --medium-bg: #2d2d2d;
+            --light-bg: #3d3d3d;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 4rem;
+            --spacing-xl: 6rem;
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-weight: 400; line-height: 1.7; color: var(--color-dark-gray);
-            background-color: var(--color-white); max-width: 1200px;
-            margin: 0 auto; padding: 40px 20px; min-height: 100vh;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* ===== 主标题区域 (Hero Section) ===== */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-sm);
+        }
+
+        /* Hero Section */
         .hero {
-            text-align: center; padding: 5rem 2rem 4rem; margin-bottom: 4rem;
-            border-bottom: 1px solid var(--color-light-gray);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: var(--spacing-xl) 0;
+            position: relative;
+            overflow: hidden;
         }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, var(--dark-bg) 70%);
+            z-index: -1;
+        }
+
+        .project-acronym {
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 700;
+            color: var(--primary-gold);
+            letter-spacing: -0.02em;
+            margin-bottom: var(--spacing-xs);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
         .project-title {
-            font-size: 5rem; font-weight: 800; letter-spacing: -0.03em;
-            margin-bottom: 1rem; line-height: 1.1;
-            background: linear-gradient(90deg, var(--color-deep-amber), var(--color-warm-gold));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-weight: 300;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin-bottom: var(--spacing-md);
+            line-height: 1.4;
         }
-        .project-subtitle {
-            font-size: 1.5rem; font-weight: 400; color: var(--color-medium-gray);
-            max-width: 800px; margin: 0 auto 2.5rem; line-height: 1.5;
-        }
+
         .authors {
-            font-size: 1.1rem; color: var(--color-medium-gray); font-weight: 350;
-            margin-bottom: 3rem; letter-spacing: 0.02em;
-        }
-        .author-name:not(:last-child)::after { content: ' · '; }
-        .cta-button {
-            display: inline-flex; align-items: center; gap: 12px;
-            background: linear-gradient(135deg, var(--color-deep-amber), var(--color-warm-gold));
-            color: white; text-decoration: none; padding: 16px 36px;
-            border-radius: var(--border-radius); font-size: 1.1rem; font-weight: 600;
-            transition: all 0.3s ease; box-shadow: var(--shadow-subtle);
-            border: none; cursor: pointer;
-        }
-        .cta-button:hover {
-            transform: translateY(-3px); box-shadow: var(--shadow-medium);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-lg);
+            font-weight: 300;
         }
 
-        /* ===== 内容卡片通用样式 ===== */
-        .content-card {
-            background: var(--color-white); border-radius: var(--border-radius);
-            padding: 2.5rem; margin-bottom: 3rem; box-shadow: var(--shadow-subtle);
-            border: 1px solid rgba(139, 117, 0, 0.05);
-        }
-        .content-card h2 {
-            color: var(--color-deep-amber); font-size: 1.8rem;
-            margin-bottom: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 10px;
+        .github-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            color: var(--primary-gold);
+            border: 1px solid var(--primary-gold);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
 
-        /* ===== 项目亮点区域 ===== */
-        .highlight-text {
-            font-size: 1.15rem; line-height: 1.8; color: var(--color-dark-gray);
+        .github-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            transition: left 0.5s;
         }
-        .highlight-text .method-name { color: var(--color-deep-amber); font-weight: 700; }
 
-        /* ===== 视频展示区域 ===== */
+        .github-btn:hover {
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .github-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Highlights Section */
+        .highlights {
+            padding: var(--spacing-xl) 0;
+            background-color: var(--medium-bg);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-gold);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--primary-gold);
+            margin: var(--spacing-xs) auto 0;
+            border-radius: 2px;
+        }
+
+        .highlight-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .highlight-keywords {
+            color: var(--primary-gold);
+            font-weight: 500;
+        }
+
+        /* Video Demo Section */
+        .video-demo {
+            padding: var(--spacing-xl) 0;
+            background-color: var(--dark-bg);
+        }
+
         .video-container {
-            border-radius: var(--border-radius); overflow: hidden;
-            background: #000; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-            margin-top: 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: var(--medium-bg);
         }
-        #mainVideo { width: 100%; display: block; outline: none; }
-        .video-controls-bar {
-            background: rgba(255, 255, 255, 0.95); padding: 15px 25px;
-            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
-            border-top: 1px solid var(--color-light-gray);
-        }
-        .control-buttons button {
-            padding: 9px 18px; margin-right: 10px; background: var(--color-deep-amber);
-            color: white; border: none; border-radius: 6px; cursor: pointer;
-            font-weight: 600; transition: background-color 0.2s;
-        }
-        .control-buttons button:hover { background: var(--color-warm-gold); }
-        .time-display { font-family: 'Courier New', monospace; color: var(--color-dark-gray); font-weight: 500; }
 
-        /* ===== 响应式设计 ===== */
+        .video-player {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: none;
+        }
+
+        .video-caption {
+            text-align: center;
+            margin-top: var(--spacing-md);
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            body { padding: 20px 15px; }
-            .hero { padding: 3rem 1rem; }
-            .project-title { font-size: 3.2rem; }
-            .project-subtitle { font-size: 1.2rem; }
-            .content-card { padding: 1.8rem; }
-            .video-controls-bar { flex-direction: column; gap: 15px; align-items: stretch; }
-            .control-buttons { display: flex; justify-content: center; }
-            .time-display { text-align: center; }
+            .hero {
+                padding: var(--spacing-lg) 0;
+            }
+
+            .project-acronym {
+                font-size: 3.5rem;
+            }
+
+            .project-title {
+                font-size: 1.1rem;
+            }
+
+            .authors {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .highlight-content {
+                font-size: 1rem;
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+            }
+
+            .project-acronym {
+                font-size: 2.5rem;
+            }
+
+            .github-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Scroll animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <!-- ===== 主标题与作者信息 ===== -->
-    <header class="hero">
-        <h1 class="project-title">ScaleSplat</h1>
-        <p class="project-subtitle">Scalable SfM-free 3D Gaussian Splatting via Memory‑Representation Co‑Design</p>
-        <p class="authors">
-            <span class="author-name">Jitong Li</span>
-            <span class="author-name">JinXu He</span>
-            <span class="author-name">Suling Xue</span>
-            <span class="author-name">xxx xxx</span>
-            <span class="author-name">Lu Lou</span>
-        </p>
-        <a href="https://github.com/Supermonsterli/ScaleSplat" target="_blank" class="cta-button">
-            <i class="fab fa-github"></i> View Code &amp; Documentation
-        </a>
-    </header>
-
-    <main>
-        <!-- ===== 项目亮点 ===== -->
-        <section class="content-card">
-            <h2><i class="fas fa-star"></i> Abstract</h2>
-            <p class="highlight-text">
-                <span class="method-name">ScaleSplat</span> is a scalable, SfM-free 3D Gaussian Splatting framework designed to overcome hardware constraints in 3D reconstruction. Through a novel <span class="method-name">memory–representation co-design</span>, it enables <span class="method-name">a single model</span> to operate efficiently across <span class="method-name">sparse-view, dense-view, and large-scale scenarios</span> on consumer-grade GPUs. This work makes high-fidelity, scalable 3D reconstruction practical for real-world multimedia applications.
-            </p>
-        </section>
-
-        <!-- ===== 视频演示 ===== -->
-        <section class="content-card">
-            <h2><i class="fas fa-play-circle"></i> Technical Demonstration</h2>
-            <p>This video demonstrates the novel-view synthesis capabilities of the ScaleSplat framework on diverse benchmarks.</p>
-            <div class="video-container">
-                <!-- ★★★ 请务必检查视频路径 ★★★ -->
-                <video id="mainVideo" controls playsinline preload="metadata">
-                    <source src="videos/ScaleSplat_NVS.mp4" type="video/mp4">
-                    Your browser does not support the video tag. Please <a href="videos/ScaleSplat_NVS.mp4">download the video</a>.
-                </video>
-                <div class="video-controls-bar">
-                    <div class="control-buttons">
-                        <button onclick="togglePlayPause()"><i class="fas fa-play"></i> Play/Pause</button>
-                        <button onclick="toggleMute()"><i class="fas fa-volume-up"></i> Mute/Unmute</button>
-                    </div>
-                    <div class="time-display" id="timeDisplay">--:-- / --:--</div>
-                </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="project-acronym fade-in">ScaleSplat</h1>
+            <p class="project-title fade-in">ScaleSplat: Scalable SfM-free 3D Gaussian Splatting via Memory-Representation Co-Design</p>
+            <div class="authors fade-in">
+                Jitong Li, JinXu He, Suling Xue, xxx xxx, and Lu Lou
             </div>
-        </section>
-        <!-- 未来可在此添加: Method, Results, Citation 等板块 -->
-    </main>
+            <a href="https://github.com/Supermonsterli/ScaleSplat" class="github-btn fade-in">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                View Project on GitHub
+            </a>
+        </div>
+    </section>
+
+    <!-- Highlights Section -->
+    <section class="highlights">
+        <div class="container">
+            <h2 class="section-title fade-in">Project Highlights</h2>
+            <div class="highlight-content fade-in">
+                <span class="highlight-keywords">ScaleSplat</span> is a scalable, SfM-free 3D Gaussian Splatting framework. It addresses the key challenge of scalable 3D reconstruction under practical hardware constraints through a <span class="highlight-keywords">memory-representation co-design</span>. This enables a single, unified model to operate effectively across <span class="highlight-keywords">sparse-view, dense-view, and large-scale scenarios</span> on consumer-grade GPUs.
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Demo Section -->
+    <section class="video-demo">
+        <div class="container">
+            <h2 class="section-title fade-in">Technical Demonstration</h2>
+            <div class="video-container fade-in">
+                <video class="video-player" controls poster="videos/poster.jpg">
+                    <source src="videos/ScaleSplat_NVS.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <p class="video-caption fade-in">ScaleSplat demonstration showing novel view synthesis results across various scenarios</p>
+        </div>
+    </section>
 
     <script>
-        // ===== 视频播放控制 =====
-        const video = document.getElementById('mainVideo');
-        const timeDisplay = document.getElementById('timeDisplay');
+        // Scroll animation implementation
+        const fadeElements = document.querySelectorAll('.fade-in');
 
-        function updateTimeDisplay() {
-            const format = (t) => `${Math.floor(t/60)}:${Math.floor(t%60).toString().padStart(2, '0')}`;
-            timeDisplay.textContent = `${format(video.currentTime)} / ${format(video.duration)}`;
-        }
-        video.addEventListener('timeupdate', updateTimeDisplay);
-        video.addEventListener('loadedmetadata', updateTimeDisplay);
+        const appearOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
 
-        window.togglePlayPause = () => video.paused ? video.play() : video.pause();
-        window.toggleMute = () => video.muted = !video.muted;
+        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('visible');
+                appearOnScroll.unobserve(entry.target);
+            });
+        }, appearOptions);
+
+        fadeElements.forEach(element => {
+            appearOnScroll.observe(element);
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add loading animation for video
+        document.querySelector('video').addEventListener('loadstart', function() {
+            this.previousElementSibling.style.background = 'var(--light-bg)';
+        });
     </script>
 </body>
 </html>
