@@ -400,6 +400,74 @@
             text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
         }
 
+        /* Results Comparison Section - 新增图片展示部分 */
+        .results-comparison {
+            padding: var(--spacing-xl) 0;
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(180deg, var(--medium-bg) 0%, var(--dark-bg) 100%);
+        }
+
+        .results-comparison::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                transparent 0%,
+                rgba(26, 26, 26, 0.7) 20%,
+                rgba(26, 26, 26, 0.9) 100%
+            );
+            z-index: -1;
+        }
+
+        .image-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 
+                var(--shadow-xl),
+                0 0 40px rgba(212, 175, 55, 0.1);
+            background: var(--medium-bg);
+            position: relative;
+            transform: translateY(0);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .image-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 15px 30px rgba(0, 0, 0, 0.5),
+                0 0 60px rgba(212, 175, 55, 0.2);
+        }
+
+        .results-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: none;
+        }
+
+        .image-caption {
+            text-align: center;
+            margin-top: var(--spacing-md);
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 1rem 1.5rem;
+            background: rgba(26, 26, 26, 0.6);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
         /* Video Demo Section */
         .video-demo {
             padding: var(--spacing-xl) 0;
@@ -513,6 +581,11 @@
             .highlight-content {
                 padding: 2rem;
             }
+            
+            .image-caption {
+                padding: 0.8rem 1.2rem;
+                font-size: 0.95rem;
+            }
         }
 
         @media (max-width: 768px) {
@@ -543,6 +616,12 @@
                 text-align: left;
             }
 
+            .image-caption {
+                font-size: 0.9rem;
+                padding: 0.7rem 1rem;
+                line-height: 1.5;
+            }
+
             .github-btn {
                 padding: 0.9rem 2rem;
                 font-size: 1rem;
@@ -565,6 +644,15 @@
 
             .authors {
                 font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .image-caption {
+                font-size: 0.85rem;
+                padding: 0.6rem 0.8rem;
             }
 
             .github-btn {
@@ -719,6 +807,24 @@
         </div>
     </section>
 
+    <!-- Results Comparison Section - 新增图片展示部分 -->
+    <section class="results-comparison">
+        <div class="container">
+            <h2 class="section-title fade-in">
+                Results <span class="gold-text">Comparison</span>
+            </h2>
+            
+            <div class="image-container fade-in">
+                <img src="image/results_comparison.png" alt="Results Comparison" class="results-image">
+            </div>
+            
+            <p class="image-caption fade-in">
+                Relationships among reconstruction quality, end-to-end time, and required input views. (a--c) report PSNRs versus end-to-end time under sparse-view, dense-view, and long-sequence large-scale settings, respectively; (d) reports PSNR versus the number of required input views for long-sequence large-scale scenes. 
+                The methods that run out of GPU memory are marked as OOM.
+            </p>
+        </div>
+    </section>
+
     <!-- Video Demo Section -->
     <section class="video-demo">
         <div class="container">
@@ -791,6 +897,18 @@
             });
             
             videoContainer.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        }
+
+        // 图片悬停效果增强
+        const imageContainer = document.querySelector('.image-container');
+        if (imageContainer) {
+            imageContainer.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            imageContainer.addEventListener('mouseleave', function() {
                 this.style.transform = 'translateY(0)';
             });
         }
