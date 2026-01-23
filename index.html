@@ -3,192 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScaleSplat Project</title>
+    <title>ScaleSplat | Scalable SfM-free 3DGS</title>
+    <!-- 引入更现代的 Inter 字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ===== 基础与重置样式 ===== */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-        body { background-color: #fefefe; color: #333; line-height: 1.7; padding: 20px; min-height: 100vh; max-width: 1200px; margin: 0 auto; }
-
-        /* ===== 全新黄色主题标题区 ===== */
-        .header-container {
-            text-align: center; padding: 50px 30px; margin-bottom: 50px;
-            background: linear-gradient(135deg, #fff9e6 0%, #ffedb3 100%); /* 柔和的金色渐变 */
-            border-radius: 20px; box-shadow: 0 10px 35px rgba(255, 185, 0, 0.15);
-            border: 1px solid #ffe680;
-            position: relative; overflow: hidden;
+        /* ===== CSS 重置与基础变量 (配色方案) ===== */
+        :root {
+            --color-deep-amber: #8B7500;   /* 主色：深琥珀，用于重要标题和边框 */
+            --color-warm-gold: #D4AF37;    /* 强调色：暖金，用于高亮和图标 */
+            --color-light-gold: #FFECB3;   /* 背景色：浅金，用于高亮背景 */
+            --color-dark-gray: #2C3E50;    /* 文字主色：深灰 */
+            --color-medium-gray: #7F8C8D;  /* 文字次色：中灰 */
+            --color-light-gray: #ECF0F1;   /* 背景色：浅灰 */
+            --color-white: #FFFFFF;
+            --shadow-subtle: 0 4px 12px rgba(139, 117, 0, 0.08);
+            --shadow-medium: 0 8px 30px rgba(139, 117, 0, 0.12);
+            --border-radius: 12px;
         }
-        .header-container::after { /* 装饰性背景元素 */
-            content: ''; position: absolute; top: -50%; right: -20%; width: 300px; height: 300px;
-            background: radial-gradient(circle, rgba(255, 230, 128, 0.2) 1%, transparent 20%);
-            z-index: 0;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 400; line-height: 1.7; color: var(--color-dark-gray);
+            background-color: var(--color-white); max-width: 1200px;
+            margin: 0 auto; padding: 40px 20px; min-height: 100vh;
         }
-        .main-title, .subtitle, .authors, .github-button { position: relative; z-index: 1; }
 
-        .main-title {
-            font-size: 4.8rem; font-weight: 900; margin-bottom: 15px; letter-spacing: -2px;
-            background: linear-gradient(90deg, #b8860b, #daa520, #ffd700); /* 琥珀-金黄-金色渐变 */
+        /* ===== 主标题区域 (Hero Section) ===== */
+        .hero {
+            text-align: center; padding: 5rem 2rem 4rem; margin-bottom: 4rem;
+            border-bottom: 1px solid var(--color-light-gray);
+        }
+        .project-title {
+            font-size: 5rem; font-weight: 800; letter-spacing: -0.03em;
+            margin-bottom: 1rem; line-height: 1.1;
+            background: linear-gradient(90deg, var(--color-deep-amber), var(--color-warm-gold));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 0 4px 8px rgba(184, 134, 11, 0.15);
         }
-        .subtitle {
-            font-size: 1.5rem; color: #5c4a00; /* 深黄色调 */ margin-bottom: 20px;
-            font-weight: 400; max-width: 900px; margin-left: auto; margin-right: auto; line-height: 1.5;
+        .project-subtitle {
+            font-size: 1.5rem; font-weight: 400; color: var(--color-medium-gray);
+            max-width: 800px; margin: 0 auto 2.5rem; line-height: 1.5;
         }
-        /* === 作者列表样式 === */
         .authors {
-            font-size: 1.15rem; color: #7c6a10; margin-bottom: 35px; font-weight: 350;
-            font-style: normal; max-width: 800px; margin-left: auto; margin-right: auto;
+            font-size: 1.1rem; color: var(--color-medium-gray); font-weight: 350;
+            margin-bottom: 3rem; letter-spacing: 0.02em;
         }
-        .author-list { display: inline; }
-        .author-list span:not(:last-child)::after { content: ','; margin-right: 0.5em; }
-        /* === GitHub按钮样式 === */
-        .github-button {
-            display: inline-flex; align-items: center; justify-content: center;
-            background: linear-gradient(to right, #5c4a00, #b8860b); /* 与标题呼应的深黄渐变 */
-            color: #fffef5; text-decoration: none; padding: 16px 32px;
-            border-radius: 12px; font-size: 1.2rem; font-weight: 700;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 20px rgba(184, 134, 11, 0.3); border: none;
-            margin-top: 10px;
+        .author-name:not(:last-child)::after { content: ' · '; }
+        .cta-button {
+            display: inline-flex; align-items: center; gap: 12px;
+            background: linear-gradient(135deg, var(--color-deep-amber), var(--color-warm-gold));
+            color: white; text-decoration: none; padding: 16px 36px;
+            border-radius: var(--border-radius); font-size: 1.1rem; font-weight: 600;
+            transition: all 0.3s ease; box-shadow: var(--shadow-subtle);
+            border: none; cursor: pointer;
         }
-        .github-button i { font-size: 1.5rem; margin-right: 15px; }
-        .github-button:hover {
-            transform: translateY(-5px) scale(1.03); box-shadow: 0 12px 25px rgba(184, 134, 11, 0.4);
-            background: linear-gradient(to right, #6d5a00, #c9960c); color: #fffff0;
+        .cta-button:hover {
+            transform: translateY(-3px); box-shadow: var(--shadow-medium);
         }
 
-        /* ===== 项目简述区域 ===== */
-        .abstract-container {
-            background: #fffdf0; padding: 30px 40px; margin: 0 auto 50px; border-radius: 18px;
-            border-left: 5px solid #daa520; box-shadow: 0 6px 18px rgba(218, 165, 32, 0.1);
-            max-width: 1000px;
+        /* ===== 内容卡片通用样式 ===== */
+        .content-card {
+            background: var(--color-white); border-radius: var(--border-radius);
+            padding: 2.5rem; margin-bottom: 3rem; box-shadow: var(--shadow-subtle);
+            border: 1px solid rgba(139, 117, 0, 0.05);
         }
-        .abstract-container h2 { color: #b8860b; margin-bottom: 15px; font-size: 1.8rem; }
-        .abstract-container p {
-            color: #555; font-size: 1.15rem; line-height: 1.8; text-align: justify;
+        .content-card h2 {
+            color: var(--color-deep-amber); font-size: 1.8rem;
+            margin-bottom: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 10px;
         }
-        .highlight { color: #b8860b; font-weight: 600; }
 
-        /* ===== 视频区域 ===== */
-        .content-container { max-width: 1100px; margin: 0 auto 60px; padding: 0 20px; }
-        .video-section {
-            background: white; padding: 35px; border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); margin-top: 20px;
-            border: 1px solid #f0e6cc;
+        /* ===== 项目亮点区域 ===== */
+        .highlight-text {
+            font-size: 1.15rem; line-height: 1.8; color: var(--color-dark-gray);
         }
-        .video-section h2 { color: #b8860b; margin-bottom: 15px; font-size: 2.2rem; }
-        .video-section > p { color: #666; margin-bottom: 30px; font-size: 1.1rem; }
-        .video-wrapper { border-radius: 15px; overflow: hidden; background: #000; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        #demoVideo { width: 100%; display: block; max-height: 75vh; background: #000; }
-        .video-info { background: #fcf8e8; padding: 18px 25px; border-top: 1px solid #eee; }
-        .video-info p { margin-bottom: 12px; color: #777; font-size: 0.95rem; }
-        .video-controls { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-        .video-controls button {
-            padding: 10px 20px; background: #daa520; color: #fff; border: none;
-            border-radius: 8px; cursor: pointer; font-weight: 600; transition: background 0.3s;
+        .highlight-text .method-name { color: var(--color-deep-amber); font-weight: 700; }
+
+        /* ===== 视频展示区域 ===== */
+        .video-container {
+            border-radius: var(--border-radius); overflow: hidden;
+            background: #000; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+            margin-top: 1rem;
         }
-        .video-controls button:hover { background: #c9960c; }
-        #timeDisplay { font-family: 'Courier New', monospace; color: #5c4a00; font-weight: bold; margin-left: auto; }
+        #mainVideo { width: 100%; display: block; outline: none; }
+        .video-controls-bar {
+            background: rgba(255, 255, 255, 0.95); padding: 15px 25px;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+            border-top: 1px solid var(--color-light-gray);
+        }
+        .control-buttons button {
+            padding: 9px 18px; margin-right: 10px; background: var(--color-deep-amber);
+            color: white; border: none; border-radius: 6px; cursor: pointer;
+            font-weight: 600; transition: background-color 0.2s;
+        }
+        .control-buttons button:hover { background: var(--color-warm-gold); }
+        .time-display { font-family: 'Courier New', monospace; color: var(--color-dark-gray); font-weight: 500; }
 
         /* ===== 响应式设计 ===== */
         @media (max-width: 768px) {
-            .main-title { font-size: 3.5rem; } .subtitle { font-size: 1.3rem; padding: 0 10px; }
-            .authors { font-size: 1.05rem; } .abstract-container { padding: 25px; }
-            .video-section { padding: 25px; } .video-controls { justify-content: space-between; }
-            #timeDisplay { margin: 10px 0 0 0; width: 100%; text-align: center; }
-            .github-button { padding: 14px 28px; font-size: 1.1rem; }
-        }
-        @media (max-width: 480px) {
-            .main-title { font-size: 2.8rem; } .subtitle { font-size: 1.1rem; }
-            .header-container { padding: 40px 20px; } .abstract-container h2 { font-size: 1.6rem; }
-            .video-section h2 { font-size: 1.8rem; }
+            body { padding: 20px 15px; }
+            .hero { padding: 3rem 1rem; }
+            .project-title { font-size: 3.2rem; }
+            .project-subtitle { font-size: 1.2rem; }
+            .content-card { padding: 1.8rem; }
+            .video-controls-bar { flex-direction: column; gap: 15px; align-items: stretch; }
+            .control-buttons { display: flex; justify-content: center; }
+            .time-display { text-align: center; }
         }
     </style>
 </head>
 <body>
-    <!-- ===== 网站标题、作者与项目信息 ===== -->
-    <header class="header-container">
-        <h1 class="main-title">ScaleSplat</h1>
-        <p class="subtitle">ScaleSplat: Scalable SfM-free 3D Gaussian Splatting via Memory-Representation Co-Design</p>
-        <!-- 新添加的作者列表 -->
+    <!-- ===== 主标题与作者信息 ===== -->
+    <header class="hero">
+        <h1 class="project-title">ScaleSplat</h1>
+        <p class="project-subtitle">Scalable SfM-free 3D Gaussian Splatting via Memory‑Representation Co‑Design</p>
         <p class="authors">
-            <span class="author-icon"><i class="fas fa-users"></i></span>
-            <span class="author-list">
-                <span>Jitong Li</span><span>JinXu He</span><span>Suling Xue</span><span>xxx xxx</span><span>Lu Lou</span>
-            </span>
+            <span class="author-name">Jitong Li</span>
+            <span class="author-name">JinXu He</span>
+            <span class="author-name">Suling Xue</span>
+            <span class="author-name">xxx xxx</span>
+            <span class="author-name">Lu Lou</span>
         </p>
-        <a href="https://github.com/Supermonsterli/ScaleSplat" target="_blank" class="github-button">
-            <i class="fab fa-github"></i> View Project on GitHub
+        <a href="https://github.com/Supermonsterli/ScaleSplat" target="_blank" class="cta-button">
+            <i class="fab fa-github"></i> View Code &amp; Documentation
         </a>
     </header>
 
-    <!-- ===== 新添加的项目简述区域 ===== -->
-    <section class="abstract-container">
-        <h2><i class="fas fa-bullseye"></i> Project Highlights</h2>
-        <p>
-            <span class="highlight">ScaleSplat</span> is a scalable, SfM-free 3D Gaussian Splatting framework. It addresses the key challenge of scalable 3D reconstruction under practical hardware constraints through a memory–representation co-design. This enables <span class="highlight">a single, unified model to operate effectively across sparse-view, dense-view, and large-scale scenarios on consumer-grade GPUs</span>, making high-quality, efficient 3D reconstruction accessible for real-world multimedia applications.
-        </p>
-    </section>
+    <main>
+        <!-- ===== 项目亮点 ===== -->
+        <section class="content-card">
+            <h2><i class="fas fa-star"></i> Abstract</h2>
+            <p class="highlight-text">
+                <span class="method-name">ScaleSplat</span> is a scalable, SfM-free 3D Gaussian Splatting framework designed to overcome hardware constraints in 3D reconstruction. Through a novel <span class="method-name">memory–representation co-design</span>, it enables <span class="method-name">a single model</span> to operate efficiently across <span class="method-name">sparse-view, dense-view, and large-scale scenarios</span> on consumer-grade GPUs. This work makes high-fidelity, scalable 3D reconstruction practical for real-world multimedia applications.
+            </p>
+        </section>
 
-    <!-- ===== 视频演示部分 ===== -->
-    <main class="content-container">
-        <section class="video-section">
-            <h2><i class="fas fa-video"></i> Technical Demonstration</h2>
-            <p>This video showcases the novel-view synthesis performance of the ScaleSplat framework.</p>
-            <div class="video-wrapper">
-                <!-- ★★★ 请务必检查此处的视频路径是否正确 ★★★ -->
-                <video id="demoVideo" controls playsinline preload="metadata">
+        <!-- ===== 视频演示 ===== -->
+        <section class="content-card">
+            <h2><i class="fas fa-play-circle"></i> Technical Demonstration</h2>
+            <p>This video demonstrates the novel-view synthesis capabilities of the ScaleSplat framework on diverse benchmarks.</p>
+            <div class="video-container">
+                <!-- ★★★ 请务必检查视频路径 ★★★ -->
+                <video id="mainVideo" controls playsinline preload="metadata">
                     <source src="videos/ScaleSplat_NVS.mp4" type="video/mp4">
-                    Your browser does not support the video tag. You can <a href="videos/ScaleSplat_NVS.mp4" download>download the video file</a> directly.
+                    Your browser does not support the video tag. Please <a href="videos/ScaleSplat_NVS.mp4">download the video</a>.
                 </video>
-                <div class="video-info">
-                    <p><small>If the video fails to load, please verify that the <code>src</code> path in the code matches the actual location of your video in the repository.</small></p>
-                    <div class="video-controls">
-                        <button onclick="togglePlay()"><i class="fas fa-play"></i> Play/Pause</button>
-                        <button onclick="toggleMute()"><i class="fas fa-volume-mute"></i> Mute/Unmute</button>
-                        <span id="timeDisplay">00:00 / 00:00</span>
+                <div class="video-controls-bar">
+                    <div class="control-buttons">
+                        <button onclick="togglePlayPause()"><i class="fas fa-play"></i> Play/Pause</button>
+                        <button onclick="toggleMute()"><i class="fas fa-volume-up"></i> Mute/Unmute</button>
                     </div>
+                    <div class="time-display" id="timeDisplay">--:-- / --:--</div>
                 </div>
             </div>
         </section>
-        <!-- 未来可在此添加更多部分，如Paper、Method、Results等 -->
+        <!-- 未来可在此添加: Method, Results, Citation 等板块 -->
     </main>
 
     <script>
-        // ===== 视频播放控制脚本 =====
-        const video = document.getElementById('demoVideo');
+        // ===== 视频播放控制 =====
+        const video = document.getElementById('mainVideo');
         const timeDisplay = document.getElementById('timeDisplay');
 
-        // 更新播放时间
-        video.addEventListener('timeupdate', () => {
-            const current = formatTime(video.currentTime);
-            const total = formatTime(video.duration);
-            timeDisplay.textContent = `${current} / ${total}`;
-        });
-        video.addEventListener('loadedmetadata', () => {
-            const total = formatTime(video.duration);
-            timeDisplay.textContent = `00:00 / ${total}`;
-        });
-
-        // 时间格式化（秒 -> 分:秒）
-        function formatTime(seconds) {
-            const min = Math.floor(seconds / 60);
-            const sec = Math.floor(seconds % 60);
-            return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+        function updateTimeDisplay() {
+            const format = (t) => `${Math.floor(t/60)}:${Math.floor(t%60).toString().padStart(2, '0')}`;
+            timeDisplay.textContent = `${format(video.currentTime)} / ${format(video.duration)}`;
         }
+        video.addEventListener('timeupdate', updateTimeDisplay);
+        video.addEventListener('loadedmetadata', updateTimeDisplay);
 
-        // 控制函数
-        window.togglePlay = function() {
-            if (video.paused) {
-                video.play();
-            } else {
-                video.pause();
-            }
-        };
-        window.toggleMute = function() {
-            video.muted = !video.muted;
-        };
+        window.togglePlayPause = () => video.paused ? video.play() : video.pause();
+        window.toggleMute = () => video.muted = !video.muted;
     </script>
 </body>
 </html>
