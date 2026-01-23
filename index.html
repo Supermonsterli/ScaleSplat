@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>ScaleSplat: Scalable SfM-free 3D Gaussian Splatting</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+        /* --- CSS Variables & Reset --- */
         :root {
-            --primary-gold: #D4AF37;
-            --light-gold: #F0E6D2;
-            --dark-gold: #B8860B;
-            --dark-bg: #1a1a1a;
-            --medium-bg: #2d2d2d;
-            --light-bg: #3d3d3d;
-            --text-primary: #ffffff;
-            --text-secondary: #cccccc;
-            --spacing-xs: 0.5rem;
-            --spacing-sm: 1rem;
-            --spacing-md: 2rem;
-            --spacing-lg: 4rem;
-            --spacing-xl: 6rem;
-            --border-radius: 8px;
-            --transition: all 0.3s ease;
+            --color-bg: #FAFAF8; /* 温暖的米白背景 */
+            --color-text-main: #1D1D1F; /* 深炭灰，接近黑 */
+            --color-text-secondary: #6E6E73; /* 次级灰 */
+            --color-accent: #C4A870; /* 沙金色/琥珀金，低饱和 */
+            --color-accent-hover: #B09560;
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --max-width: 1080px;
+            --radius: 16px;
         }
 
         * {
@@ -30,379 +32,253 @@
         }
 
         body {
-            font-family: 'Helvetica Neue', Arial, -apple-system, sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-primary);
+            background-color: var(--color-bg);
+            color: var(--color-text-main);
+            font-family: var(--font-main);
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
         }
 
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        /* --- Layout & Utilities --- */
         .container {
-            width: 90%;
-            max-width: 1200px;
+            max-width: var(--max-width);
             margin: 0 auto;
-            padding: 0 var(--spacing-sm);
+            padding: 0 24px;
         }
 
-        /* Hero Section - 根据图片样式调整 */
+        .section {
+            padding: 80px 0;
+        }
+
+        /* 入场动画 */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+
+        /* --- Hero Section --- */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            padding-top: 120px;
+            padding-bottom: 60px;
             text-align: center;
-            padding: var(--spacing-xl) 0;
-            position: relative;
-            background: linear-gradient(135deg, #0a0a0a 0%, var(--dark-bg) 100%);
         }
 
-        .project-acronym {
-            font-size: clamp(5rem, 12vw, 9rem);
+        .project-name {
+            font-size: clamp(3.5rem, 8vw, 6rem); /* 响应式巨型字体 */
             font-weight: 800;
-            color: var(--primary-gold);
-            letter-spacing: -0.03em;
-            margin-bottom: 0.2em;
-            text-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
-            background: linear-gradient(135deg, var(--primary-gold) 0%, #f1c40f 100%);
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #1D1D1F 30%, var(--color-accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
+            margin-bottom: 24px;
+            line-height: 1.1;
         }
 
-        .project-title {
-            font-size: clamp(1.4rem, 3.2vw, 1.8rem);
-            font-weight: 300;
-            color: var(--text-primary);
-            line-height: 1.4;
-            max-width: 850px;
-            margin: 0 auto var(--spacing-md);
-            padding: 0 var(--spacing-sm);
-            text-align: center;
-            letter-spacing: 0.01em;
-        }
-
-        /* 确保副标题在两行显示 */
-        .project-title-container {
-            display: inline-block;
-            text-align: center;
+        .paper-title {
+            font-size: clamp(1.25rem, 4vw, 1.75rem);
+            font-weight: 400;
+            color: var(--color-text-main);
             max-width: 900px;
-            margin: 0 auto;
+            margin: 0 auto 32px auto;
+            line-height: 1.4;
         }
 
-        .authors {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-bottom: var(--spacing-lg);
-            font-weight: 300;
-            letter-spacing: 0.02em;
+        .authors-list {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 40px;
         }
 
-        /* GitHub按钮样式 - 根据图片调整 */
-        .github-btn {
+        .author-name {
+            display: inline-block;
+            margin: 0 8px;
+            position: relative;
+            font-weight: 500;
+        }
+        
+        /* 简单的作者分割线 */
+        .author-name:not(:last-child)::after {
+            content: ",";
+            position: absolute;
+            right: -6px;
+        }
+
+        /* Action Button */
+        .btn-github {
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 2rem;
-            background: transparent;
-            color: var(--text-primary);
-            border: 2px solid var(--primary-gold);
-            border-radius: var(--border-radius);
-            text-decoration: none;
-            font-size: 1.1rem;
+            gap: 10px;
+            background-color: var(--color-text-main);
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 99px; /* 胶囊形状 */
             font-weight: 500;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 0.5px;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid transparent;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .github-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
-            transition: left 0.7s;
+        .btn-github:hover {
+            transform: scale(1.02);
+            background-color: #333;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
         }
 
-        .github-btn:hover {
-            background: rgba(212, 175, 55, 0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
-            border-color: var(--light-gold);
+        .btn-github i {
+            font-size: 1.2rem;
         }
 
-        .github-btn:hover::before {
-            left: 100%;
-        }
-
-        .github-icon {
-            width: 24px;
-            height: 24px;
-        }
-
-        /* Highlights Section */
-        .highlights {
-            padding: var(--spacing-xl) 0;
-            background: linear-gradient(180deg, var(--dark-bg) 0%, var(--medium-bg) 100%);
+        /* --- Abstract / Highlights Section --- */
+        .abstract-section {
+            background-color: #fff;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
         .section-title {
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: var(--primary-gold);
-            margin-bottom: var(--spacing-lg);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-accent);
+            font-weight: 700;
+            margin-bottom: 24px;
             text-align: center;
-            position: relative;
-            letter-spacing: -0.01em;
         }
 
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-gold), var(--light-gold));
-            margin: var(--spacing-xs) auto 0;
-            border-radius: 2px;
-        }
-
-        .highlight-content {
+        .abstract-content {
             max-width: 800px;
             margin: 0 auto;
-            font-size: 1.2rem;
+            font-size: 1.25rem; /* 稍大字号，便于阅读 */
+            color: var(--color-text-main);
+            text-align: justify; /* 两端对齐更具学术感 */
+            font-weight: 400;
             line-height: 1.8;
-            color: var(--text-secondary);
-            text-align: center;
-            padding: 0 var(--spacing-md);
+        }
+        
+        .highlight-text {
+            color: var(--color-accent);
+            font-weight: 600;
         }
 
-        .highlight-keywords {
-            color: var(--primary-gold);
-            font-weight: 500;
-        }
-
-        /* Video Demo Section */
-        .video-demo {
-            padding: var(--spacing-xl) 0;
-            background: linear-gradient(180deg, var(--medium-bg) 0%, #0a0a0a 100%);
-        }
-
+        /* --- Video Section --- */
         .video-container {
+            width: 100%;
             max-width: 1000px;
             margin: 0 auto;
-            border-radius: 12px;
+            border-radius: var(--radius);
             overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-            background: var(--dark-bg);
+            background-color: #000; /* 视频加载前的背景 */
+            box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.15); /* 悬浮感阴影 */
             position: relative;
+            aspect-ratio: 16 / 9; /* 保持比例，防止抖动 */
         }
 
-        .video-player {
-            width: 100%;
-            height: auto;
-            display: block;
-            border: none;
-        }
-
-        .video-caption {
-            text-align: center;
-            margin-top: var(--spacing-md);
-            color: var(--text-secondary);
-            font-style: italic;
-            font-size: 1.1rem;
-        }
-
-        /* 装饰性元素 */
-        .gold-line {
-            width: 100px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
-            margin: var(--spacing-md) auto;
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 1024px) {
-            .project-title {
-                max-width: 700px;
-                font-size: 1.3rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero {
-                padding: var(--spacing-lg) 0;
-            }
-
-            .project-acronym {
-                font-size: 3.5rem;
-            }
-
-            .project-title {
-                font-size: 1.1rem;
-                max-width: 500px;
-            }
-
-            .authors {
-                font-size: 1rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .highlight-content {
-                font-size: 1.1rem;
-                text-align: left;
-                padding: 0 var(--spacing-sm);
-            }
-
-            .github-btn {
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                width: 95%;
-            }
-
-            .project-acronym {
-                font-size: 2.8rem;
-            }
-
-            .project-title {
-                font-size: 1rem;
-                max-width: 320px;
-            }
-
-            .github-btn {
-                padding: 0.7rem 1.2rem;
-                font-size: 0.9rem;
-            }
-        }
-
-        /* 滚动动画 */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* 装饰性背景图案 */
-        .background-pattern {
-            position: absolute;
-            top: 0;
-            left: 0;
+        video {
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            opacity: 0.05;
-            background-image: 
-                radial-gradient(circle at 20% 20%, var(--primary-gold) 1px, transparent 1px),
-                radial-gradient(circle at 80% 80%, var(--primary-gold) 1px, transparent 1px);
-            background-size: 50px 50px;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 60px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .hero { padding-top: 80px; }
+            .abstract-content { font-size: 1.1rem; padding: 0 16px; }
+            .btn-github { width: 100%; justify-content: center; }
+            .author-name { display: block; margin: 4px 0; }
+            .author-name:not(:last-child)::after { content: ""; }
         }
     </style>
 </head>
 <body>
-    <!-- Hero Section - 根据图片样式调整 -->
-    <section class="hero">
-        <div class="background-pattern"></div>
-        <div class="container">
-            <h1 class="project-acronym fade-in">ScaleSplat</h1>
-            <div class="project-title-container fade-in">
-                <p class="project-title">
-                    ScaleSplat: Scalable SfM-free 3D Gaussian Splatting via Memory-Representation Co-Design
-                </p>
-            </div>
-            <div class="gold-line fade-in"></div>
-            <div class="authors fade-in">
-                Jitong Li, JinXu He, Suling Xue, xxx xxx, and Lu Lou
-            </div>
-            <a href="https://github.com/Supermonsterli/ScaleSplat" class="github-btn fade-in">
-                <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
+
+    <header class="hero container">
+        <h1 class="project-name fade-in-up">ScaleSplat</h1>
+        
+        <h2 class="paper-title fade-in-up delay-1">
+            ScaleSplat: Scalable SfM-free 3D Gaussian Splatting via Memory-Representation Co-Design
+        </h2>
+        
+        <div class="authors-list fade-in-up delay-2">
+            <span class="author-name">Jitong Li</span>
+            <span class="author-name">JinXu He</span>
+            <span class="author-name">Suling Xue</span>
+            <span class="author-name">xxx xxx</span>
+            <span class="author-name">Lu Lou</span>
+        </div>
+
+        <div class="fade-in-up delay-3">
+            <a href=" " target="_blank" class="btn-github">
+                <i class="fab fa-github"></i>
                 View Project on GitHub
-            </a>
+            </a >
         </div>
-    </section>
+    </header>
 
-    <!-- Highlights Section -->
-    <section class="highlights">
+    <section class="section abstract-section">
         <div class="container">
-            <h2 class="section-title fade-in">Project Highlights</h2>
-            <div class="highlight-content fade-in">
-                <span class="highlight-keywords">ScaleSplat</span> is a scalable, SfM-free 3D Gaussian Splatting framework. It addresses the key challenge of scalable 3D reconstruction under practical hardware constraints through a <span class="highlight-keywords">memory-representation co-design</span>. This enables a single, unified model to operate effectively across <span class="highlight-keywords">sparse-view, dense-view, and large-scale scenarios</span> on consumer-grade GPUs.
+            <div class="section-title">Project Highlights</div>
+            <div class="abstract-content">
+                <p>
+                    <strong>ScaleSplat</strong> is a scalable, <span class="highlight-text">SfM-free</span> 3D Gaussian Splatting framework. It addresses the key challenge of scalable 3D reconstruction under practical hardware constraints through a <span class="highlight-text">memory–representation co-design</span>. This enables a single, unified model to operate effectively across sparse-view, dense-view, and large-scale scenarios on consumer-grade GPUs.
+                </p >
             </div>
         </div>
     </section>
 
-    <!-- Video Demo Section -->
-    <section class="video-demo">
+    <section class="section">
         <div class="container">
-            <h2 class="section-title fade-in">Technical Demonstration</h2>
-            <div class="video-container fade-in">
-                <video class="video-player" controls poster="videos/poster.jpg">
+            <div class="section-title">Technical Demonstration</div>
+            
+            <div class="video-container">
+                <video controls playsinline poster="">
                     <source src="videos/ScaleSplat_NVS.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
-            <p class="video-caption fade-in">ScaleSplat demonstration showing novel view synthesis results across various scenarios</p>
+            
+            <p style="text-align: center; margin-top: 20px; color: var(--color-text-secondary); font-size: 0.9rem;">
+                Novel View Synthesis Results
+            </p >
         </div>
     </section>
 
+    <footer class="container">
+        <p>&copy; 2025 ScaleSplat Project. All rights reserved.</p >
+    </footer>
+
     <script>
-        // 滚动动画实现
-        const fadeElements = document.querySelectorAll('.fade-in');
-
-        const appearOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
-
-        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
-                entry.target.classList.add('visible');
-                appearOnScroll.unobserve(entry.target);
-            });
-        }, appearOptions);
-
-        fadeElements.forEach(element => {
-            appearOnScroll.observe(element);
-        });
-
-        // 视频加载动画
-        const video = document.querySelector('video');
-        if (video) {
-            video.addEventListener('loadstart', function() {
-                this.previousElementSibling.style.background = 'var(--light-bg)';
-            });
-        }
-
-        // 页面加载完成后初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            // 确保所有fade-in元素在视口中可见时立即显示
-            setTimeout(() => {
-                document.querySelectorAll('.fade-in').forEach(el => {
-                    const rect = el.getBoundingClientRect();
-                    if (rect.top < window.innerHeight * 0.8) {
-                        el.classList.add('visible');
-                    }
-                });
-            }, 100);
-        });
+        // 简单的脚本：防止视频右键下载（可选，增加一点专业保护感）
+        document.querySelector('video').addEventListener('contextmenu', e => e.preventDefault());
     </script>
 </body>
 </html>
