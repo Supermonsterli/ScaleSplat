@@ -1,5 +1,5 @@
 # ScaleSplat📏
-Scalable SfM-free 3D Gaussian Splatting via Memory-Representation Co-design. 
+Scalable SfM-free 3D Gaussian Splatting via Memory-Representation Co-Design. 
 
 ## 🎯 Project Highlights
 
