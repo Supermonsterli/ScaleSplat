@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScaleSplat Project</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== 基础样式 ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', -apple-system, sans-serif; }
+        body { background-color: #f8f9fa; color: #333; line-height: 1.6; padding: 20px; max-width: 1200px; margin: 0 auto; }
+
+        /* ===== 标题区域 ===== */
+        .header-container {
+            text-align: center; padding: 40px 20px; margin-bottom: 40px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%); border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08); border: 1px solid rgba(255,255,255,0.9);
+        }
+        .main-title {
+            font-size: 4.5rem; font-weight: 800; margin-bottom: 10px; letter-spacing: -1.5px;
+            background: linear-gradient(90deg, #2a2a72, #009ffd); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .subtitle { font-size: 1.4rem; color: #5a5a5a; margin-bottom: 35px; font-weight: 400; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .github-button {
+            display: inline-flex; align-items: center; justify-content: center; background-color: #24292f; color: white;
+            text-decoration: none; padding: 14px 28px; border-radius: 10px; font-size: 1.1rem; font-weight: 600;
+            transition: all 0.3s ease; box-shadow: 0 6px 12px rgba(36,41,47,0.2); border: 2px solid transparent;
+        }
+        .github-button i { font-size: 1.4rem; margin-right: 12px; }
+        .github-button:hover { background-color: #2c3137; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(36,41,47,0.25); }
+
+        /* ===== 视频区域 ===== */
+        .content-container { max-width: 1100px; margin: 0 auto 50px; padding: 0 20px; }
+        .video-section {
+            background: white; padding: 30px; border-radius: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); margin-top: 20px;
+        }
+        .video-section h2 { color: #2a2a72; margin-bottom: 10px; font-size: 2rem; }
+        .video-section > p { color: #666; margin-bottom: 25px; font-size: 1.05rem; }
+        .video-wrapper { border-radius: 12px; overflow: hidden; background: #000; }
+        /* 视频播放器本身 */
+        #demoVideo { width: 100%; display: block; max-height: 75vh; background: #000; }
+        .video-info { background: #f8f9fa; padding: 15px 20px; border-top: 1px solid #eee; }
+        .video-info p { margin-bottom: 10px; color: #555; }
+        .video-controls { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .video-controls button { padding: 8px 16px; background: #24292f; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .video-controls button:hover { background: #2c3137; }
+        #timeDisplay { font-family: monospace; color: #333; margin-left: auto; }
+
+        /* ===== 响应式设计（针对手机） ===== */
+        @media (max-width: 768px) {
+            .main-title { font-size: 3.2rem; } .subtitle { font-size: 1.2rem; padding: 0 15px; }
+            .video-section { padding: 20px; } .video-controls { justify-content: space-between; }
+            #timeDisplay { margin-left: 0; margin-top: 10px; width: 100%; text-align: center; }
+        }
+        @media (max-width: 480px) { .main-title { font-size: 2.5rem; } .subtitle { font-size: 1rem; } .header-container { padding: 30px 15px; } }
+    </style>
+</head>
+<body>
+    <!-- ===== 网站标题与项目信息 ===== -->
+    <header class="header-container">
+        <h1 class="main-title">ScaleSplat</h1>
+        <p class="subtitle">ScaleSplat: Scalable SfM-free 3D Gaussian Splatting via Memory-Representation Co-Design</p>
+        <a href="https://github.com/Supermonsterli/ScaleSplat" target="_blank" class="github-button">
+            <i class="fab fa-github"></i> View on GitHub
+        </a>
+    </header>
+
+    <!-- ===== 视频演示部分 ===== -->
+    <main class="content-container">
+        <section class="video-section">
+            <h2>📹 技术演示视频</h2>
+            <p>以下视频展示了 ScaleSplat 在 novel-view synthesis 任务上的效果。</p>
+            <div class="video-wrapper">
+                <!-- ★★★ 最关键的一步：请修改下面 <source> 标签的 src 路径 ★★★ -->
+                <!-- 请将 “videos/ScaleSplat_NVS.mp4” 改为你视频上传到 GitHub 后的实际路径 -->
+                <video id="demoVideo" controls playsinline preload="metadata">
+                    <source src="videos/ScaleSplat_NVS.mp4" type="video/mp4">
+                    您的浏览器不支持播放此视频。请直接<a href="videos/ScaleSplat_NVS.mp4" download>下载视频文件</a>。
+                </video>
+                <div class="video-info">
+                    <p><small>如果视频无法加载，请确认上方的 <code>src</code> 路径是否正确。</small></p>
+                    <div class="video-controls">
+                        <button onclick="togglePlay()">播放/暂停</button>
+                        <button onclick="toggleMute()">静音/取消静音</button>
+                        <span id="timeDisplay">00:00 / 00:00</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- 你可以在这里未来添加更多内容，例如论文摘要、方法等 -->
+    </main>
+
+    <script>
+        // ===== 视频播放控制脚本 =====
+        const video = document.getElementById('demoVideo');
+        const timeDisplay = document.getElementById('timeDisplay');
+
+        // 更新播放时间
+        video.addEventListener('timeupdate', () => {
+            const current = formatTime(video.currentTime);
+            const total = formatTime(video.duration);
+            timeDisplay.textContent = `${current} / ${total}`;
+        });
+        video.addEventListener('loadedmetadata', () => {
+            const total = formatTime(video.duration);
+            timeDisplay.textContent = `00:00 / ${total}`;
+        });
+
+        // 时间格式化（秒 -> 分:秒）
+        function formatTime(seconds) {
+            const min = Math.floor(seconds / 60);
+            const sec = Math.floor(seconds % 60);
+            return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+        }
+
+        // 控制函数
+        window.togglePlay = function() { video.paused ? video.play() : video.pause(); };
+        window.toggleMute = function() { video.muted = !video.muted; };
+    </script>
+</body>
+</html>
