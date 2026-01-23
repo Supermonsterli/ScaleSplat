@@ -1,6 +1,7 @@
 # ScaleSplat📏
-Scalable SfM-free 3D Gaussian Splatting via Memory-Representation Co-Design. 
 [![Website](https://img.shields.io/badge/Website-Visit_Our_Demo-8B7500?style=for-the-badge&logo=github&logoColor=white)](https://supermonsterli.github.io/ScaleSplat/)
+
+Scalable SfM-free 3D Gaussian Splatting via Memory-Representation Co-Design. 
 
 ## 🎯 Project Highlights
 
