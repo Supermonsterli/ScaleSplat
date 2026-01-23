@@ -30,7 +30,7 @@
         }
 
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Helvetica Neue', Arial, -apple-system, sans-serif;
             background-color: var(--dark-bg);
             color: var(--text-primary);
             line-height: 1.6;
@@ -44,7 +44,7 @@
             padding: 0 var(--spacing-sm);
         }
 
-        /* Hero Section */
+        /* Hero Section - 根据图片样式调整 */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -54,60 +54,67 @@
             text-align: center;
             padding: var(--spacing-xl) 0;
             position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, transparent 0%, var(--dark-bg) 70%);
-            z-index: -1;
+            background: linear-gradient(135deg, #0a0a0a 0%, var(--dark-bg) 100%);
         }
 
         .project-acronym {
-            font-size: clamp(4rem, 10vw, 8rem);
-            font-weight: 700;
+            font-size: clamp(5rem, 12vw, 9rem);
+            font-weight: 800;
             color: var(--primary-gold);
-            letter-spacing: -0.02em;
-            margin-bottom: var(--spacing-xs);
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            letter-spacing: -0.03em;
+            margin-bottom: 0.2em;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, var(--primary-gold) 0%, #f1c40f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .project-title {
-            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-size: clamp(1.4rem, 3.2vw, 1.8rem);
             font-weight: 300;
-            color: var(--text-secondary);
-            max-width: 800px;
-            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
             line-height: 1.4;
+            max-width: 850px;
+            margin: 0 auto var(--spacing-md);
+            padding: 0 var(--spacing-sm);
+            text-align: center;
+            letter-spacing: 0.01em;
+        }
+
+        /* 确保副标题在两行显示 */
+        .project-title-container {
+            display: inline-block;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .authors {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: var(--text-secondary);
             margin-bottom: var(--spacing-lg);
             font-weight: 300;
+            letter-spacing: 0.02em;
         }
 
+        /* GitHub按钮样式 - 根据图片调整 */
         .github-btn {
             display: inline-flex;
             align-items: center;
-            gap: var(--spacing-xs);
-            padding: 0.75rem 1.5rem;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
             background: transparent;
-            color: var(--primary-gold);
-            border: 1px solid var(--primary-gold);
+            color: var(--text-primary);
+            border: 2px solid var(--primary-gold);
             border-radius: var(--border-radius);
             text-decoration: none;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 500;
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+            letter-spacing: 0.5px;
         }
 
         .github-btn::before {
@@ -118,40 +125,47 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
-            transition: left 0.5s;
+            transition: left 0.7s;
         }
 
         .github-btn:hover {
             background: rgba(212, 175, 55, 0.1);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+            border-color: var(--light-gold);
         }
 
         .github-btn:hover::before {
             left: 100%;
         }
 
+        .github-icon {
+            width: 24px;
+            height: 24px;
+        }
+
         /* Highlights Section */
         .highlights {
             padding: var(--spacing-xl) 0;
-            background-color: var(--medium-bg);
+            background: linear-gradient(180deg, var(--dark-bg) 0%, var(--medium-bg) 100%);
         }
 
         .section-title {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 600;
             color: var(--primary-gold);
             margin-bottom: var(--spacing-lg);
             text-align: center;
             position: relative;
+            letter-spacing: -0.01em;
         }
 
         .section-title::after {
             content: '';
             display: block;
-            width: 60px;
-            height: 3px;
-            background: var(--primary-gold);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--light-gold));
             margin: var(--spacing-xs) auto 0;
             border-radius: 2px;
         }
@@ -159,10 +173,11 @@
         .highlight-content {
             max-width: 800px;
             margin: 0 auto;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             line-height: 1.8;
             color: var(--text-secondary);
             text-align: center;
+            padding: 0 var(--spacing-md);
         }
 
         .highlight-keywords {
@@ -173,16 +188,17 @@
         /* Video Demo Section */
         .video-demo {
             padding: var(--spacing-xl) 0;
-            background-color: var(--dark-bg);
+            background: linear-gradient(180deg, var(--medium-bg) 0%, #0a0a0a 100%);
         }
 
         .video-container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            background: var(--medium-bg);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            background: var(--dark-bg);
+            position: relative;
         }
 
         .video-player {
@@ -197,9 +213,25 @@
             margin-top: var(--spacing-md);
             color: var(--text-secondary);
             font-style: italic;
+            font-size: 1.1rem;
         }
 
-        /* Responsive Design */
+        /* 装饰性元素 */
+        .gold-line {
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
+            margin: var(--spacing-md) auto;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .project-title {
+                max-width: 700px;
+                font-size: 1.3rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .hero {
                 padding: var(--spacing-lg) 0;
@@ -211,6 +243,7 @@
 
             .project-title {
                 font-size: 1.1rem;
+                max-width: 500px;
             }
 
             .authors {
@@ -218,12 +251,18 @@
             }
 
             .section-title {
-                font-size: 1.5rem;
+                font-size: 2rem;
             }
 
             .highlight-content {
-                font-size: 1rem;
+                font-size: 1.1rem;
                 text-align: left;
+                padding: 0 var(--spacing-sm);
+            }
+
+            .github-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
             }
         }
 
@@ -233,39 +272,65 @@
             }
 
             .project-acronym {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
+            }
+
+            .project-title {
+                font-size: 1rem;
+                max-width: 320px;
             }
 
             .github-btn {
-                padding: 0.6rem 1.2rem;
+                padding: 0.7rem 1.2rem;
                 font-size: 0.9rem;
             }
         }
 
-        /* Scroll animation */
+        /* 滚动动画 */
         .fade-in {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
         .fade-in.visible {
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* 装饰性背景图案 */
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.05;
+            background-image: 
+                radial-gradient(circle at 20% 20%, var(--primary-gold) 1px, transparent 1px),
+                radial-gradient(circle at 80% 80%, var(--primary-gold) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
     </style>
 </head>
 <body>
-    <!-- Hero Section -->
+    <!-- Hero Section - 根据图片样式调整 -->
     <section class="hero">
+        <div class="background-pattern"></div>
         <div class="container">
             <h1 class="project-acronym fade-in">ScaleSplat</h1>
-            <p class="project-title fade-in">ScaleSplat: Scalable SfM-free 3D Gaussian Splatting via Memory-Representation Co-Design</p>
+            <div class="project-title-container fade-in">
+                <p class="project-title">
+                    ScaleSplat: Scalable SfM-free 3D Gaussian Splatting via Memory-Representation Co-Design
+                </p>
+            </div>
+            <div class="gold-line fade-in"></div>
             <div class="authors fade-in">
                 Jitong Li, JinXu He, Suling Xue, xxx xxx, and Lu Lou
             </div>
             <a href="https://github.com/Supermonsterli/ScaleSplat" class="github-btn fade-in">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                 </svg>
                 View Project on GitHub
@@ -298,7 +363,7 @@
     </section>
 
     <script>
-        // Scroll animation implementation
+        // 滚动动画实现
         const fadeElements = document.querySelectorAll('.fade-in');
 
         const appearOptions = {
@@ -318,19 +383,25 @@
             appearOnScroll.observe(element);
         });
 
-        // Smooth scrolling for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        // 视频加载动画
+        const video = document.querySelector('video');
+        if (video) {
+            video.addEventListener('loadstart', function() {
+                this.previousElementSibling.style.background = 'var(--light-bg)';
             });
-        });
+        }
 
-        // Add loading animation for video
-        document.querySelector('video').addEventListener('loadstart', function() {
-            this.previousElementSibling.style.background = 'var(--light-bg)';
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 确保所有fade-in元素在视口中可见时立即显示
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in').forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.8) {
+                        el.classList.add('visible');
+                    }
+                });
+            }, 100);
         });
     </script>
 </body>
