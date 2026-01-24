@@ -547,7 +547,8 @@
             border: none;
         }
 
-        .image-caption {
+        /* 优化图片说明样式 - 重新设计结构 */
+        .image-caption-container {
             text-align: center;
             margin-top: var(--spacing-md);
             color: var(--text-secondary);
@@ -556,10 +557,49 @@
             max-width: 900px;
             margin-left: auto;
             margin-right: auto;
-            padding: 1rem 1.5rem;
+            padding: 1.5rem 1.5rem;
             background: rgba(26, 26, 26, 0.6);
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* 图注样式 - 加粗显示 */
+        .image-caption-main {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        /* 解释说明部分样式 */
+        .image-explanation {
+            text-align: left;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* 解释说明项目样式 */
+        .explanation-item {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.2rem;
+        }
+
+        .explanation-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .explanation-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5em;
+            width: 6px;
+            height: 6px;
+            background: var(--primary-gold);
+            border-radius: 50%;
         }
 
         /* 添加装饰性角标 */
@@ -610,9 +650,13 @@
                 padding: 2rem;
             }
             
-            .image-caption {
-                padding: 0.8rem 1.2rem;
+            .image-caption-container {
+                padding: 1.2rem 1.2rem;
                 font-size: 0.95rem;
+            }
+            
+            .image-caption-main {
+                font-size: 1rem;
             }
         }
 
@@ -643,10 +687,18 @@
                 padding: 1.5rem;
             }
 
-            .image-caption {
+            .image-caption-container {
                 font-size: 0.9rem;
-                padding: 0.7rem 1rem;
+                padding: 1rem 1rem;
                 line-height: 1.5;
+            }
+            
+            .image-caption-main {
+                font-size: 0.95rem;
+            }
+            
+            .explanation-item {
+                padding-left: 1rem;
             }
 
             .github-btn {
@@ -687,9 +739,22 @@
                 margin-bottom: 1.2rem;
             }
 
-            .image-caption {
+            .image-caption-container {
                 font-size: 0.85rem;
-                padding: 0.6rem 0.8rem;
+                padding: 0.8rem 0.8rem;
+            }
+            
+            .image-caption-main {
+                font-size: 0.9rem;
+            }
+            
+            .explanation-item {
+                padding-left: 0.8rem;
+            }
+            
+            .explanation-item::before {
+                width: 5px;
+                height: 5px;
             }
 
             .github-btn {
@@ -885,12 +950,15 @@
                 <img src="image/results_comparison.png" alt="Results Comparison" class="results-image">
             </div>
             
-            <p class="image-caption fade-in">
-                Relationships among reconstruction quality, end-to-end time, and required input views. 
-                (a--c) report PSNRs versus end-to-end time under sparse-view, dense-view, and long-sequence large-scale settings, respectively; 
-                (d) reports PSNR versus the number of required input views for long-sequence large-scale scenes. 
-                The methods that run out of GPU memory are marked as OOM.
-            </p>
+            <div class="image-caption-container fade-in">
+                <p class="image-caption-main">Relationships among reconstruction quality, end-to-end time, and required input views.</p>
+                
+                <div class="image-explanation">
+                    <div class="explanation-item">(a--c) report PSNRs versus end-to-end time under sparse-view, dense-view, and long-sequence large-scale settings, respectively;</div>
+                    <div class="explanation-item">(d) reports PSNR versus the number of required input views for long-sequence large-scale scenes.</div>
+                    <div class="explanation-item">The methods that run out of GPU memory are marked as OOM.</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1083,4 +1151,3 @@
     </script>
 </body>
 </html>
-
