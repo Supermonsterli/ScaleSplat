@@ -311,14 +311,15 @@
             height: 22px;
         }
 
-        /* Highlights Section */
-        .highlights {
+        /* Video Demo Section - 移到Highlights之前 */
+        .video-demo {
             padding: var(--spacing-xl) 0;
             position: relative;
             z-index: 1;
+            background: linear-gradient(180deg, var(--dark-bg) 0%, var(--medium-bg) 100%);
         }
 
-        .highlights::before {
+        .video-demo::before {
             content: '';
             position: absolute;
             top: 0;
@@ -328,8 +329,8 @@
             background: linear-gradient(
                 180deg,
                 transparent 0%,
-                rgba(26, 26, 26, 0.8) 30%,
-                rgba(26, 26, 26, 1) 100%
+                rgba(26, 26, 26, 0.9) 30%,
+                rgba(10, 10, 10, 1) 100%
             );
             z-index: -1;
         }
@@ -362,6 +363,72 @@
             height: 3px;
             background: linear-gradient(90deg, var(--primary-gold), var(--light-gold));
             border-radius: 2px;
+        }
+
+        .video-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 
+                var(--shadow-xl),
+                0 0 40px rgba(212, 175, 55, 0.1);
+            background: var(--medium-bg);
+            position: relative;
+            transform: translateY(0);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .video-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 15px 30px rgba(0, 0, 0, 0.5),
+                0 0 60px rgba(212, 175, 55, 0.2);
+        }
+
+        .video-player {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: none;
+            border-radius: 16px;
+        }
+
+        .video-caption {
+            text-align: center;
+            margin-top: var(--spacing-md);
+            color: var(--text-tertiary);
+            font-style: italic;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(26, 26, 26, 0.6);
+            border-radius: 8px;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Highlights Section */
+        .highlights {
+            padding: var(--spacing-xl) 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .highlights::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                transparent 0%,
+                rgba(26, 26, 26, 0.8) 30%,
+                rgba(26, 26, 26, 1) 100%
+            );
+            z-index: -1;
         }
 
         .highlight-content {
@@ -427,7 +494,7 @@
             text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
         }
 
-        /* Results Comparison Section - 新增图片展示部分 */
+        /* Results Comparison Section - 图片展示部分 */
         .results-comparison {
             padding: var(--spacing-xl) 0;
             position: relative;
@@ -492,72 +559,6 @@
             padding: 1rem 1.5rem;
             background: rgba(26, 26, 26, 0.6);
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        /* Video Demo Section */
-        .video-demo {
-            padding: var(--spacing-xl) 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .video-demo::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                180deg,
-                transparent 0%,
-                rgba(26, 26, 26, 0.9) 30%,
-                rgba(10, 10, 10, 1) 100%
-            );
-            z-index: -1;
-        }
-
-        .video-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 
-                var(--shadow-xl),
-                0 0 40px rgba(212, 175, 55, 0.1);
-            background: var(--medium-bg);
-            position: relative;
-            transform: translateY(0);
-            transition: transform 0.5s ease, box-shadow 0.5s ease;
-            border: 1px solid rgba(212, 175, 55, 0.1);
-        }
-
-        .video-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 
-                0 15px 30px rgba(0, 0, 0, 0.5),
-                0 0 60px rgba(212, 175, 55, 0.2);
-        }
-
-        .video-player {
-            width: 100%;
-            height: auto;
-            display: block;
-            border: none;
-            border-radius: 16px;
-        }
-
-        .video-caption {
-            text-align: center;
-            margin-top: var(--spacing-md);
-            color: var(--text-tertiary);
-            font-style: italic;
-            font-size: 1.1rem;
-            padding: 0.5rem 1rem;
-            background: rgba(26, 26, 26, 0.6);
-            border-radius: 8px;
-            display: inline-block;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -825,6 +826,26 @@
         </div>
     </section>
 
+    <!-- Video Demo Section - 移到Highlights之前 -->
+    <section class="video-demo">
+        <div class="container">
+            <h2 class="section-title fade-in">
+                Technical <span class="gold-text">Demonstration</span>
+            </h2>
+            
+            <div class="video-container fade-in">
+                <video class="video-player" autoplay muted loop controls poster="videos/poster.jpg">
+                    <source src="videos/ScaleSplat_NVS.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            
+            <div style="text-align: center;">
+                <p class="video-caption fade-in">ScaleSplat demonstration showing novel view synthesis results across various scenarios with widely varying view densities and scene scales.</p>
+            </div>
+        </div>
+    </section>
+
     <!-- Highlights Section -->
     <section class="highlights">
         <div class="container">
@@ -853,7 +874,7 @@
         </div>
     </section>
 
-    <!-- Results Comparison Section - 新增图片展示部分 -->
+    <!-- Results Comparison Section - 图片展示部分 -->
     <section class="results-comparison">
         <div class="container">
             <h2 class="section-title fade-in">
@@ -868,26 +889,6 @@
                 Relationships among reconstruction quality, end-to-end time, and required input views. (a--c) report PSNRs versus end-to-end time under sparse-view, dense-view, and long-sequence large-scale settings, respectively; (d) reports PSNR versus the number of required input views for long-sequence large-scale scenes. 
                 The methods that run out of GPU memory are marked as OOM.
             </p>
-        </div>
-    </section>
-
-    <!-- Video Demo Section -->
-    <section class="video-demo">
-        <div class="container">
-            <h2 class="section-title fade-in">
-                Technical <span class="gold-text">Demonstration</span>
-            </h2>
-            
-            <div class="video-container fade-in">
-                <video class="video-player" controls poster="videos/poster.jpg">
-                    <source src="videos/ScaleSplat_NVS.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-            
-            <div style="text-align: center;">
-                <p class="video-caption fade-in">ScaleSplat demonstration showing novel view synthesis results across various scenarios</p>
-            </div>
         </div>
     </section>
 
@@ -933,6 +934,25 @@
 
             // 初始化滚动指示器
             initScrollEffects();
+
+            // 尝试自动播放视频
+            const video = document.querySelector('video');
+            if (video) {
+                // 确保视频可以自动播放
+                video.autoplay = true;
+                video.muted = true; // 静音以确保自动播放
+                video.loop = true; // 循环播放
+                
+                // 尝试播放视频
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Auto-play failed, user interaction required:", error);
+                        // 如果自动播放失败，显示播放按钮
+                        video.controls = true;
+                    });
+                }
+            }
         });
 
         // 视频悬停效果增强
