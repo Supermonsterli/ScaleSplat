@@ -16,8 +16,8 @@ The following figure summarizes the key performance comparisons of ScaleSplat:
 
 ![Results Comparison](image/results_comparison.png)
 
-*Figure 1: Relationships among reconstruction quality, end-to-end time, and required input views.*
-- **(a-c)** report PSNRs versus end-to-end time under sparse-view, dense-view, and long-sequence large-scale settings, respectively.
+*Figure 1: Relationships among reconstruction quality, total runtime, and required input views.*
+- **(a-c)** report PSNRs versus total runtime under sparse-view, dense-view, and long-sequence large-scale settings, respectively.
 - **(d)** reports PSNR versus the number of required input views for long-sequence large-scale scenes.
 - Methods that run out of GPU memory are marked as **OOM**.
 
