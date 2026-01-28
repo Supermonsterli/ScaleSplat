@@ -41,8 +41,8 @@
             line-height: 1.6;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 25%),
-                radial-gradient(circle at 85% 80%, rgba(212, 175, 55, 0.03) 0%, transparent 25%);
+                radial-gradient(circle at 15% 20%, rgba(212, 1, 55, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 85% 80%, rgba(212, 1, 55, 0.03) 0%, transparent 25%);
             background-attachment: fixed;
         }
 
@@ -75,7 +75,7 @@
             height: 100%;
             background: radial-gradient(
                 ellipse at 50% 30%,
-                rgba(212, 175, 55, 0.08) 0%,
+                rgba(212, 1, 55, 0.08) 0%,
                 transparent 60%
             );
             z-index: -2;
@@ -108,7 +108,7 @@
         .decoration-circle {
             position: absolute;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(212, 1, 55, 0.05) 0%, transparent 70%);
         }
 
         .circle-1 {
@@ -141,8 +141,8 @@
             margin-bottom: 0.1em;
             position: relative;
             text-shadow: 
-                0 0 40px rgba(212, 175, 55, 0.3),
-                0 0 80px rgba(212, 175, 55, 0.1);
+                0 0 40px rgba(212, 1, 55, 0.3),
+                0 0 80px rgba(212, 1, 55, 0.1);
             
             /* 创建多层文字效果 */
             background: linear-gradient(
@@ -176,9 +176,9 @@
             color: transparent;
             z-index: -1;
             text-shadow: 
-                0 0 10px rgba(212, 175, 55, 0.5),
-                0 0 30px rgba(212, 175, 55, 0.3),
-                0 0 60px rgba(212, 175, 55, 0.1);
+                0 0 10px rgba(212, 1, 55, 0.5),
+                0 0 30px rgba(212, 1, 55, 0.3),
+                0 0 60px rgba(212, 1, 55, 0.1);
         }
 
         /* 优化副标题样式 - 去掉背景框，使用优雅的文字样式 */
@@ -258,7 +258,7 @@
         .github-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.rem;
             padding: 1rem 2.5rem;
             background: transparent;
             color: var(--text-primary);
@@ -273,7 +273,7 @@
             letter-spacing: 0.5px;
             z-index: 2;
             box-shadow: 
-                0 4px 12px rgba(212, 175, 55, 0.2),
+                0 4px 12px rgba(212, 1, 55, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
@@ -286,8 +286,8 @@
             height: 100%;
             background: linear-gradient(90deg, 
                 transparent, 
-                rgba(212, 175, 55, 0.2), 
-                rgba(212, 175, 55, 0.1), 
+                rgba(212, 1, 55, 0.2), 
+                rgba(212, 1, 55, 0.1), 
                 transparent
             );
             transition: left 0.7s;
@@ -927,7 +927,7 @@
                         We propose <span class="highlight-keywords">ScaleSplat</span>, a scalable SfM-free 3D Gaussian Splatting framework that unifies <span class="highlight-keywords">sparse-view</span>, <span class="highlight-keywords">dense-view</span>, and <span class="highlight-keywords">large-scale scene</span> reconstruction within <span class="highlight-keywords">a single model</span>, significantly lowering the data and computational barriers of existing 3DGS methods under practical GPU memory constraints.
                     </li>
                     <li class="highlight-item">
-                        We introduce a <span class="highlight-keywords">memory-representation co-design</span> that reduces peak GPU memory by about <span class="highlight-keywords">75%</span> during geometry inference and eliminates <span class="highlight-keywords">25-80%</span> of redundant Gaussians during optimization, enabling scalable SfM-free reconstruction on consumer-grade GPUs.
+                        We introduce a <span class="highlight-keywords">memory-representation co-design</span> that reduces peak GPU memory by about <span class="highlight-keywords">70%</span> during geometry inference and eliminates <span class="highlight-keywords">25-80%</span> of redundant Gaussians during optimization, enabling scalable SfM-free reconstruction on consumer-grade GPUs.
                     </li>
                     <li class="highlight-item">
                         We develop a <span class="highlight-keywords">geometry-preserving strategy</span>, including confidence-aware depth regularization and dual-constraint multi-view geometric consistency, to effectively maintain structural fidelity and rendering quality after aggressive Gaussian pruning.
@@ -1149,5 +1149,6 @@
     </script>
 </body>
 </html>
+
 
 
