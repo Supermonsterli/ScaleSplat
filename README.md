@@ -6,7 +6,7 @@ Scalable SfM-free 3D Gaussian Splatting via Memory-Representation Co-Design.
 ## 🎯 Project Highlights
 
 - We propose **ScaleSplat**, a scalable SfM-free 3D Gaussian Splatting framework that unifies **sparse-view**, **dense-view**, and **large-scale scene** reconstruction within **a single model**, significantly lowering the data and computational barriers of existing 3DGS methods under practical GPU memory constraints.
-- We introduce a **memory-representation co-design** that reduces peak GPU memory by about **75%** during geometry inference and eliminates **25-80%** of redundant Gaussians during optimization, enabling scalable SfM-free reconstruction on consumer-grade GPUs.
+- We introduce a **memory-representation co-design** that reduces peak GPU memory by about **70%** during geometry inference and eliminates **25-80%** of redundant Gaussians during optimization, enabling scalable SfM-free reconstruction on consumer-grade GPUs.
 - We develop a **geometry-preserving strategy**, including confidence-aware depth regularization and dual-constraint multi-view geometric consistency, to effectively maintain structural fidelity and rendering quality after aggressive Gaussian pruning.
 
 
