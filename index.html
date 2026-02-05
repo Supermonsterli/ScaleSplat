@@ -53,7 +53,7 @@
             padding: 0 var(--spacing-sm);
         }
 
-        /* Hero Section - 修正颜色值 */
+        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -144,7 +144,7 @@
                 0 0 40px rgba(212, 175, 55, 0.3),
                 0 0 80px rgba(212, 175, 55, 0.1);
             
-            /* 创建多层文字效果 - 修正颜色值 */
+            /* 创建多层文字效果 */
             background: linear-gradient(
                 135deg,
                 #D4AF37 0%,
@@ -165,7 +165,7 @@
             100% { background-position: 100% 50%; }
         }
 
-        /* 添加微妙的轮廓光效果 - 修正颜色值 */
+        /* 添加微妙的轮廓光效果 */
         .project-acronym::after {
             content: 'ScaleSplat';
             position: absolute;
@@ -181,7 +181,7 @@
                 0 0 60px rgba(212, 175, 55, 0.1);
         }
 
-        /* 优化副标题样式 - 去掉背景框，使用优雅的文字样式 */
+        /* 优化副标题样式 */
         .project-title {
             font-size: clamp(1.3rem, 3vw, 1.6rem);
             font-weight: 350;
@@ -197,7 +197,7 @@
             padding: 0 1rem;
         }
 
-        /* 优化作者区域样式 - 去掉背景框，改为优雅的文字链 */
+        /* 优化作者区域样式 */
         .authors {
             font-size: 1.2rem;
             color: var(--text-secondary);
@@ -254,7 +254,7 @@
             opacity: 0.6;
         }
 
-        /* GitHub按钮样式 - 修正颜色值 */
+        /* GitHub按钮样式 */
         .github-btn {
             display: inline-flex;
             align-items: center;
@@ -311,9 +311,79 @@
             height: 22px;
         }
 
+        /* 滚动提示样式 */
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeInHint 2s ease-out 1.5s forwards;
+        }
+
+        @keyframes fadeInHint {
+            0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+            100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        .scroll-hint-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .scroll-hint-arrow {
+            width: 20px;
+            height: 30px;
+            position: relative;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .scroll-hint-arrow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: var(--primary-gold);
+            transform: translateX(-50%);
+        }
+
+        .scroll-hint-arrow::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid var(--primary-gold);
+            border-bottom: 2px solid var(--primary-gold);
+            transform: translateX(-50%) rotate(45deg);
+        }
+
         /* 其余样式保持不变... */
 
-        /* Video Demo Section - 移到Highlights之前 */
+        /* Video Demo Section */
         .video-demo {
             padding: var(--spacing-xl) 0;
             position: relative;
@@ -496,7 +566,7 @@
             text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
         }
 
-        /* Results Comparison Section - 图片展示部分 */
+        /* Results Comparison Section */
         .results-comparison {
             padding: var(--spacing-xl) 0;
             position: relative;
@@ -549,7 +619,7 @@
             border: none;
         }
 
-        /* 优化图片说明样式 - 重新设计结构 */
+        /* 优化图片说明样式 */
         .image-caption-container {
             text-align: center;
             margin-top: var(--spacing-md);
@@ -565,7 +635,7 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* 图注样式 - 加粗显示 */
+        /* 图注样式 */
         .image-caption-main {
             font-weight: 600;
             font-size: 1.1rem;
@@ -707,6 +777,14 @@
                 padding: 0.9rem 2rem;
                 font-size: 1rem;
             }
+
+            .scroll-hint {
+                bottom: 30px;
+            }
+            
+            .scroll-hint-text {
+                font-size: 0.8rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -767,6 +845,14 @@
             .corner-decoration {
                 width: 20px;
                 height: 20px;
+            }
+
+            .scroll-hint {
+                bottom: 20px;
+            }
+            
+            .scroll-hint-text {
+                font-size: 0.75rem;
             }
         }
 
@@ -889,9 +975,15 @@
                 View Project on GitHub
             </a>
         </div>
+        
+        <!-- 新增滚动提示 -->
+        <div class="scroll-hint">
+            <div class="scroll-hint-text">Scroll to explore</div>
+            <div class="scroll-hint-arrow"></div>
+        </div>
     </section>
 
-    <!-- Video Demo Section - 移到Highlights之前 -->
+    <!-- Video Demo Section -->
     <section class="video-demo">
         <div class="container">
             <h2 class="section-title fade-in">
@@ -929,7 +1021,7 @@
                         We propose <span class="highlight-keywords">ScaleSplat</span>, a scalable SfM-free 3D Gaussian Splatting framework that unifies <span class="highlight-keywords">sparse-view</span>, <span class="highlight-keywords">dense-view</span>, and <span class="highlight-keywords">large-scale scene</span> reconstruction within <span class="highlight-keywords">a single model</span>, significantly lowering the data and computational barriers of existing 3DGS methods under practical GPU memory constraints.
                     </li>
                     <li class="highlight-item">
-                        We introduce a <span class="highlight-keywords">memory-representation co-design</span> that reduces peak GPU memory by about <span class="highlight-keywords">70%</span> during geometry inference and eliminates <span class="highlight-keywords">25-80%</span> of redundant Gaussians during optimization, enabling scalable SfM-free reconstruction on consumer-grade GPUs.
+                        We introduce a <span class="highlight-keywords">memory-representation co-design</span> that reduces peak GPU memory by about <span class="highlight-keywords">70%</span> during geometry inference and eliminates <span class="highlight-keywords">25-85%</span> of redundant Gaussians during optimization, enabling scalable SfM-free reconstruction on consumer-grade GPUs.
                     </li>
                     <li class="highlight-item">
                         We develop a <span class="highlight-keywords">geometry-preserving strategy</span>, including confidence-aware depth regularization and dual-constraint multi-view geometric consistency, to effectively maintain structural fidelity and rendering quality after aggressive Gaussian pruning.
@@ -939,7 +1031,7 @@
         </div>
     </section>
 
-    <!-- Results Comparison Section - 图片展示部分 -->
+    <!-- Results Comparison Section -->
     <section class="results-comparison">
         <div class="container">
             <h2 class="section-title fade-in">
@@ -1002,7 +1094,7 @@
                 });
             }, 300);
 
-            // 初始化滚动指示器
+            // 初始化滚动效果
             initScrollEffects();
 
             // 尝试自动播放视频
@@ -1022,6 +1114,18 @@
                         video.controls = true;
                     });
                 }
+            }
+            
+            // 滚动提示点击事件
+            const scrollHint = document.querySelector('.scroll-hint');
+            if (scrollHint) {
+                scrollHint.addEventListener('click', function() {
+                    // 滚动到下一个section
+                    const nextSection = document.querySelector('.video-demo');
+                    if (nextSection) {
+                        nextSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
             }
         });
 
@@ -1054,6 +1158,7 @@
             const scrollProgress = document.querySelector('.scroll-progress');
             const scrollTopBtn = document.getElementById('scrollTopBtn');
             const parallaxBg = document.querySelector('.parallax-bg');
+            const scrollHint = document.querySelector('.scroll-hint');
             
             // 滚动进度条
             window.addEventListener('scroll', function() {
@@ -1072,6 +1177,17 @@
                         scrollTopBtn.classList.add('show');
                     } else {
                         scrollTopBtn.classList.remove('show');
+                    }
+                }
+                
+                // 控制滚动提示的显示/隐藏
+                if (scrollHint) {
+                    if (window.scrollY > 100) {
+                        scrollHint.style.opacity = '0';
+                        scrollHint.style.pointerEvents = 'none';
+                    } else {
+                        scrollHint.style.opacity = '1';
+                        scrollHint.style.pointerEvents = 'auto';
                     }
                 }
                 
